@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTU Antennas & Propagation 3161003 — Cheat Sheet</title>
+
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #141720;
+    --surface2: #1a1f2e;
+    --border: #252b3b;
+    --text: #cdd6f4;
+    --muted: #7f849c;
+    --c1: #89dceb;  /* Ch1 - cyan */
+    --c2: #a6e3a1;  /* Ch2 - green */
+    --c3: #fab387;  /* Ch3 - peach */
+    --c5: #cba6f7;  /* Ch5 - mauve */
+    --c6: #f38ba8;  /* Ch6 - red */
+    --c15: #f9e2af; /* Ch15 - yellow */
+    --eq: #89b4fa;  /* equations - blue */
+    --tag: #313244;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: #fff; color: #111; font-size: 9.5px; }
+    .page { page-break-after: always; padding: 8mm; }
+    :root {
+      --bg: #fff; --surface: #f5f5f5; --surface2: #ececec;
+      --border: #ccc; --text: #111; --muted: #555;
+      --c1:#007a8c; --c2:#1a7a44; --c3:#b45a00; --c5:#6b21a8;
+      --c6:#b91c1c; --c15:#a16207; --eq:#1d4ed8; --tag:#e5e7eb;
+    }
+    .header { background: #1a1f2e !important; }
+    .header * { color: #fff !important; }
+  }
+
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 16px 10px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-title {
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    color: #fff;
+  }
+  .header-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Courier New', Courier, monospace;
+  }
+  .header-chips {
+    display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end;
+  }
+  .chip {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* GRID */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .span2 { grid-column: span 2; }
+  .span3 { grid-column: span 3; }
+  .span4 { grid-column: span 4; }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    overflow: hidden;
+  }
+  .card-title {
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-title .dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  /* CHAPTER HEADER */
+  .ch-header {
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ch-num {
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    opacity: 0.9;
+  }
+  .ch-info { flex: 1; }
+  .ch-name {
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+  .ch-co {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9px;
+    opacity: 0.7;
+  }
+
+  /* TEXT ELEMENTS */
+  p, li { color: var(--text); margin-bottom: 3px; }
+  ul { padding-left: 14px; }
+  ul li { list-style: disc; }
+  li { margin-bottom: 2px; }
+
+  strong { color: #fff; font-weight: 600; }
+  em { font-style: italic; color: var(--muted); }
+
+  /* EQUATIONS */
+  .eq {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 10px;
+    color: var(--eq);
+    background: rgba(137,180,250,0.07);
+    border-left: 2px solid var(--eq);
+    padding: 3px 7px;
+    margin: 4px 0;
+    border-radius: 0 3px 3px 0;
+    overflow-x: auto;
+  }
+  .eq-inline {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5px;
+    color: var(--eq);
+    background: rgba(137,180,250,0.08);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin-top: 4px;
+  }
+  th {
+    background: var(--surface2);
+    color: #fff;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 4px 6px;
+    text-align: left;
+    border: 1px solid var(--border);
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 3px 6px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* HIGHLIGHT BOXES */
+  .highlight {
+    border-radius: 4px;
+    padding: 5px 9px;
+    margin: 4px 0;
+    border-left: 3px solid;
+  }
+
+  /* DEFINITION LIST */
+  .dlist { display: grid; grid-template-columns: auto 1fr; gap: 1px 10px; align-items: start; }
+  .dterm {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5px;
+    color: #fff;
+    font-weight: 700;
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+  .ddef { padding-top: 2px; border-bottom: 1px dashed var(--border); padding-bottom: 3px; }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 8px 0; }
+
+  .spacer { height: 8px; }
+
+  /* PAGE LABEL */
+  .page-label {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-align: right;
+    margin-top: 6px;
+  }
+
+  /* TAGS */
+  .tag {
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    background: var(--tag);
+    color: var(--muted);
+    margin-right: 3px;
+    font-weight: 700;
+  }
+
+  /* ZONE VISUAL */
+  .zones-bar {
+    display: flex;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 22px;
+    margin: 5px 0;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .zone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #111;
+    font-size: 9px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ===================== PAGE 1 ===================== -->
+<div class="page">
+  <div class="header">
+    <div>
+      <div class="header-title">⚡ ANTENNAS &amp; PROPAGATION — CHEAT SHEET</div>
+      <div class="header-sub">GTU Subject 3161003 · Electronics &amp; Communication Engineering · Chapters 1, 2, 3, 5, 6, 15</div>
+    </div>
+    <div class="header-chips">
+      <span class="chip" style="background:rgba(137,220,235,0.15);color:var(--c1)">CH1 CO1</span>
+      <span class="chip" style="background:rgba(166,227,161,0.15);color:var(--c2)">CH2 CO3</span>
+      <span class="chip" style="background:rgba(250,179,135,0.15);color:var(--c3)">CH3 CO2</span>
+      <span class="chip" style="background:rgba(203,166,247,0.15);color:var(--c5)">CH5 CO3</span>
+      <span class="chip" style="background:rgba(243,139,168,0.15);color:var(--c6)">CH6 CO3</span>
+      <span class="chip" style="background:rgba(249,226,175,0.15);color:var(--c15)">CH15 CO5</span>
+    </div>
+  </div>
+
+  <!-- CH1 HEADER -->
+  <div class="ch-header" style="background:rgba(137,220,235,0.08);border:1px solid rgba(137,220,235,0.2)">
+    <div class="ch-num" style="color:var(--c1)">01</div>
+    <div class="ch-info">
+      <div class="ch-name">BASIC ANTENNA CONCEPTS</div>
+      <div class="ch-co">CO1 — Definition, Patterns, Types, Radiation Mechanism</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <!-- DEFINITIONS -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c1)"></span>Definition &amp; Functions</div>
+      <p><strong>IEEE Std:</strong> "A means for radiating or receiving radio waves."</p>
+      <p><strong>Circuit view:</strong> Impedance-matching device between feedline and free space (transitions Z₀ → η₀ = 377 Ω).</p>
+      <p><strong>Transitional structure:</strong> Bridges guided-wave propagation (TL) to free-space radiation. Two-wire → flared → dipole → radiation.</p>
+      <div class="divider"></div>
+      <p><strong>Functions:</strong></p>
+      <ul>
+        <li>Radiate/receive EM energy efficiently</li>
+        <li>Provide directional selectivity (gain/pattern)</li>
+        <li>Match impedance of feedline to free space</li>
+        <li>Define polarisation of wave</li>
+      </ul>
+    </div>
+
+    <!-- ANTENNA vs TL -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c1)"></span>Antenna vs Transmission Line</div>
+      <table>
+        <tr><th>Antenna</th><th>Transmission Line</th></tr>
+        <tr><td>Unbounded / free space wave</td><td>Bounded / guided wave</td></tr>
+        <tr><td>Fields detach &amp; propagate</td><td>Fields confined between conductors</td></tr>
+        <tr><td>Impedance: η₀ = 377 Ω</td><td>Z₀ = 50 / 75 / 300 Ω</td></tr>
+        <tr><td>Power → radiated far away</td><td>Power transported, not radiated</td></tr>
+        <tr><td>Current distribution non-uniform</td><td>Uniform (matched TL)</td></tr>
+      </table>
+    </div>
+
+    <!-- RADIO LINK -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c1)"></span>Radio Communication Link</div>
+      <div class="eq">Tx → Feedline → Tx Antenna →[Free Space]→ Rx Antenna → Feedline → Rx</div>
+      <ul>
+        <li><strong>Tx:</strong> Generates RF signal at frequency f</li>
+        <li><strong>Tx Antenna:</strong> Converts guided wave → EM wave (gain G_T)</li>
+        <li><strong>Free Space:</strong> Path loss ∝ (4πr/λ)² (FSPL)</li>
+        <li><strong>Rx Antenna:</strong> Converts EM wave → guided wave (A_eff = G_R·λ²/4π)</li>
+      </ul>
+      <div class="eq">P_R = P_T · G_T · G_R · (λ/4πr)²  [Friis]</div>
+    </div>
+
+    <!-- RADIATION PATTERNS -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c1)"></span>Radiation Patterns</div>
+      <p><strong>Field pattern:</strong> Normalised |E(θ,φ)| vs. direction</p>
+      <p><strong>Power pattern:</strong> Normalised |E|² vs. direction (∝ U/U_max)</p>
+      <div class="divider"></div>
+      <div class="dlist">
+        <div class="dterm">Isotropic</div><div class="ddef">Sphere — equal radiation all directions (theoretical ref.)</div>
+        <div class="dterm">Omnidirectional</div><div class="ddef">Uniform in azimuth, varies in elevation (donut shape)</div>
+        <div class="dterm">Directional</div><div class="ddef">Strong main beam in one direction (high gain)</div>
+        <div class="dterm">HPBW</div><div class="ddef">Angle between –3 dB (half-power) points of main beam</div>
+        <div class="dterm">FNBW</div><div class="ddef">Angle between first nulls (≈ 2 × HPBW)</div>
+        <div class="dterm">Side lobes</div><div class="ddef">Radiation outside main beam (undesired)</div>
+      </div>
+    </div>
+
+    <!-- ANTENNA TYPES -->
+    <div class="card span2">
+      <div class="card-title"><span class="dot" style="background:var(--c1)"></span>All Antenna Types</div>
+      <div class="grid-2">
+        <div>
+          <p><strong>Wire Antennas</strong></p>
+          <ul>
+            <li><strong>Short dipole:</strong> &lt;&lt; λ; uniform current approx.; R_rad = 80π²(Δl/λ)² Ω</li>
+            <li><strong>λ/2 dipole:</strong> Resonant; R_rad ≈ 73 Ω; D = 1.64 (2.15 dBi)</li>
+            <li><strong>Monopole:</strong> λ/4 over ground; R_rad ≈ 36.5 Ω; D = 3.28 (5.15 dBi)</li>
+            <li><strong>Loop:</strong> Small loop = magnetic dipole; large loop = resonant</li>
+            <li><strong>Helix:</strong> Normal mode (compact) / Axial mode (CP, high-gain)</li>
+            <li><strong>Yagi-Uda:</strong> Director + reflector array; G ≈ 7–15 dBi; terrestrial TV</li>
+          </ul>
+        </div>
+        <div>
+          <p><strong>Aperture &amp; Other</strong></p>
+          <ul>
+            <li><strong>Horn:</strong> Flared waveguide; microwave links, radar feed</li>
+            <li><strong>Parabolic dish:</strong> Very high gain; satellite, radio telescope</li>
+            <li><strong>Slot:</strong> Cut in conductor; flush-mount aircraft/ships</li>
+            <li><strong>Microstrip patch:</strong> Low profile; GPS, mobile, Wi-Fi</li>
+            <li><strong>Phased array:</strong> Electronic beam steering; 5G, military radar</li>
+            <li><strong>Lens:</strong> Dielectric focusing; mm-wave systems</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- CH2 HEADER -->
+  <div class="ch-header" style="background:rgba(166,227,161,0.08);border:1px solid rgba(166,227,161,0.2);margin-top:4px">
+    <div class="ch-num" style="color:var(--c2)">02</div>
+    <div class="ch-info">
+      <div class="ch-name">RADIATION OF ELECTRIC DIPOLE</div>
+      <div class="ch-co">CO3 — Field Derivations, Radiation Resistance, Reciprocity, Feeding Methods</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <!-- HERTZIAN DIPOLE FIELDS -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c2)"></span>Hertzian Dipole — All Field Components</div>
+      <p>Dipole <span class="eq-inline">IΔl</span> at origin along z-axis, current <span class="eq-inline">I₀e^jωt</span>:</p>
+      <div class="eq">A_z = μ₀I₀Δl·e^(-jβr)/(4πr)</div>
+      <p><strong>H-field (only φ component):</strong></p>
+      <div class="eq">H_φ = (I₀Δl sinθ/4π)·[jβ/r + 1/r²]·e^(-jβr)</div>
+      <p><strong>E-field:</strong></p>
+      <div class="eq">E_θ = ηI₀Δl sinθ/4π·[jβ/r + 1/r² - j/(β r³)]·e^(-jβr)</div>
+      <div class="eq">E_r = ηI₀Δl cosθ/2π·[1/r² + 1/(jβr³)]·e^(-jβr)</div>
+      <p><strong>Far field (βr≫1), 1/r terms only:</strong></p>
+      <div class="eq">E_θ = jηI₀Δlβ sinθ/4π · e^(-jβr)/r</div>
+      <div class="eq">H_φ = jI₀Δlβ sinθ/4π · e^(-jβr)/r</div>
+      <div class="eq">E_θ / H_φ = η = 120π ≈ 377 Ω</div>
+    </div>
+
+    <!-- HALF-WAVE DIPOLE -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c2)"></span>Half-Wave Dipole (λ/2)</div>
+      <p><strong>Current distribution:</strong> <span class="eq-inline">I(z) = I₀cos(βz), |z|≤λ/4</span></p>
+      <p><strong>Far-field components:</strong></p>
+      <div class="eq">E_θ = j60I₀·(e^(-jβr)/r)·[cos(π/2·cosθ)/sinθ]</div>
+      <div class="eq">H_φ = E_θ/η</div>
+      <p>Pattern max at θ = 90° (broadside), nulls at θ = 0°,180°</p>
+      <div class="divider"></div>
+      <p><strong>Radiation Resistance:</strong></p>
+      <div class="eq">P_rad = ½|I₀|²R_rad  →  R_rad = 2P_rad/|I₀|²</div>
+      <div class="eq">∫₀^π cos²(πcosθ/2)/sinθ dθ ≈ 1.2188</div>
+      <div class="eq">R_rad = 73.1 Ω ≈ 73 Ω  (λ/2 dipole)</div>
+      <div class="divider"></div>
+      <p><strong>Monopole (λ/4):</strong> Image theory → half of dipole</p>
+      <div class="eq">R_rad(monopole) = 36.5 Ω;  D = 3.28 (5.15 dBi)</div>
+    </div>
+
+    <!-- RECIPROCITY + FEEDING -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c2)"></span>Reciprocity Theorem</div>
+      <p><strong>Statement:</strong> In a linear, bilateral network, if EMF V at port A causes current I at port B, then the same V at B causes same I at A. For antennas: <em>radiation pattern, effective length, and impedance are identical in Tx &amp; Rx modes.</em></p>
+      <div class="eq">Lorentz: ∫E_B·J_A dV = ∫E_A·J_B dV</div>
+      <div class="eq">∴ Z_12 = Z_21  →  Pattern(Tx) = Pattern(Rx)</div>
+      <p><strong>Consequence:</strong> Effective length h_e same in Tx &amp; Rx; directional pattern same.</p>
+      <div class="divider"></div>
+      <div class="card-title" style="border:none;padding:0;margin-top:4px"><span class="dot" style="background:var(--c2)"></span>Antenna Feeding Methods</div>
+      <ul>
+        <li><strong>Coaxial probe:</strong> Direct feed; outer→gnd, inner→element</li>
+        <li><strong>Microstrip edge:</strong> 50Ω line at edge (inset for matching)</li>
+        <li><strong>Aperture (slot) coupling:</strong> Through slot in GND plane; good isolation</li>
+        <li><strong>Inductive (loop):</strong> Coupling loop inside resonator</li>
+        <li><strong>Proximity coupling:</strong> Overlap of feedline under patch; widest BW</li>
+        <li><strong>Balun feed:</strong> For balanced antennas (dipole) from unbalanced coax</li>
+      </ul>
+    </div>
+
+    <!-- RETARDED + NEAR FAR FIELD DISTANCES -->
+    <div class="card span3">
+      <div class="card-title"><span class="dot" style="background:var(--c2)"></span>Retarded Effect &amp; Field Regions</div>
+      <div class="grid-3">
+        <div>
+          <p><strong>Retarded Potential:</strong> EM disturbance from source takes time r/c to reach P. Current at time t causes field at time t+r/c.</p>
+          <div class="eq">I_ret = I₀·e^(jω(t-r/c)) = I₀e^(jωt)·e^(-jβr)</div>
+          <div class="eq">A(r,t) = μ₀/4π ∫ J(r', t-R/c)/R dV'</div>
+          <p>Phase term <span class="eq-inline">e^(-jβr)</span> = retardation factor</p>
+        </div>
+        <div>
+          <p><strong>Radiation vs Induction field boundary:</strong></p>
+          <div class="eq">E_rad ∝ 1/r;  E_ind ∝ 1/r²</div>
+          <div class="eq">Equal when: βr = 1  →  r = λ/2π</div>
+          <p>At 1 MHz: λ=300m → r = 300/2π ≈ <strong>47.75 m</strong></p>
+          <ul>
+            <li>βr ≫ 1: Far field dominates</li>
+            <li>βr = 1: Transition point</li>
+            <li>βr ≪ 1: Reactive near field</li>
+          </ul>
+        </div>
+        <div>
+          <div class="zones-bar">
+            <div class="zone" style="background:#f38ba8;width:22%">Reactive</div>
+            <div class="zone" style="background:#fab387;width:30%">Fresnel</div>
+            <div class="zone" style="background:#a6e3a1;width:48%">Fraunhofer (Far)</div>
+          </div>
+          <div class="eq">Reactive NF:  r &lt; 0.62√(D³/λ)</div>
+          <div class="eq">Fresnel:      0.62√(D³/λ) ≤ r &lt; 2D²/λ</div>
+          <div class="eq">Fraunhofer:   r ≥ 2D²/λ</div>
+          <p>where D = largest antenna dimension</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-label">Page 1 of 4 — GTU 3161003 Antennas &amp; Propagation Cheat Sheet</div>
+</div>
+
+<!-- ===================== PAGE 2 ===================== -->
+<div class="page">
+  <!-- CH3 HEADER -->
+  <div class="ch-header" style="background:rgba(250,179,135,0.08);border:1px solid rgba(250,179,135,0.2)">
+    <div class="ch-num" style="color:var(--c3)">03</div>
+    <div class="ch-info">
+      <div class="ch-name">ANTENNA PARAMETERS &amp; DEFINITIONS</div>
+      <div class="ch-co">CO2 — Beam Area, Directivity, Gain, Aperture, Polarisation, Friis Formula, Temp &amp; SNR</div>
+    </div>
+  </div>
+
+  <div class="grid-4">
+    <!-- BEAM / PATTERN PARAMS -->
+    <div class="card span2">
+      <div class="card-title"><span class="dot" style="background:var(--c3)"></span>Beam &amp; Pattern Parameters</div>
+      <div class="grid-2">
+        <div>
+          <div class="dlist">
+            <div class="dterm">HPBW</div><div class="ddef">Angle between –3dB (half-power) points. Narrower = more directive.</div>
+            <div class="dterm">FNBW</div><div class="ddef">Angle between first nulls. FNBW ≈ 2×HPBW approx.</div>
+            <div class="dterm">Beam Area Ω_A</div><div class="ddef">Ω_A = ∫∫P_n dΩ = P_rad/U_max [sr]. Solid angle of equivalent uniform beam.</div>
+            <div class="dterm">Beam Eff. η_B</div><div class="ddef">η_B = Ω_MB/Ω_A where Ω_MB = main-beam solid angle. Fraction of power in main beam.</div>
+            <div class="dterm">Rad. Intensity U</div><div class="ddef">U = dP/dΩ [W/sr]. U = r²·W_rad. P_rad = ∫∫U dΩ</div>
+          </div>
+        </div>
+        <div>
+          <div class="eq">HPBW: U(θ) = U_max/2 at ±θ_hp</div>
+          <div class="eq">Ω_A = 4π/D  (inversely proportional to D)</div>
+          <div class="eq">U₀(isotropic) = P_rad/4π  [W/sr]</div>
+          <div class="eq">P_rad = ∫₀^2π∫₀^π U sinθ dθ dφ</div>
+          <p style="margin-top:4px"><strong>Approx. gain from beamwidths:</strong></p>
+          <div class="eq">G ≈ 41253 / (θ₁° × θ₂°)  [unitless]</div>
+          <p>Approximate formula valid for pencil-beam antennas</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIRECTIVITY & GAIN -->
+    <div class="card span2">
+      <div class="card-title"><span class="dot" style="background:var(--c3)"></span>Directivity, Gain &amp; Efficiency</div>
+      <div class="grid-2">
+        <div>
+          <p><strong>Directivity:</strong></p>
+          <div class="eq">D = U_max/U_avg = 4πU_max/P_rad</div>
+          <div class="eq">D = 4π/Ω_A</div>
+          <p><strong>Gain:</strong></p>
+          <div class="eq">G = η_r × D  where η_r = P_rad/P_in</div>
+          <div class="eq">G(dBi) = 10log₁₀(G)</div>
+          <p>Efficiency η_r accounts for ohmic + mismatch losses</p>
+        </div>
+        <div>
+          <p><strong>Key values:</strong></p>
+          <table>
+            <tr><th>Antenna</th><th>D</th><th>dBi</th></tr>
+            <tr><td>Isotropic</td><td>1.0</td><td>0</td></tr>
+            <tr><td>Short dipole</td><td>1.5</td><td>1.76</td></tr>
+            <tr><td>λ/2 dipole</td><td>1.64</td><td>2.15</td></tr>
+            <tr><td>Monopole λ/4</td><td>3.28</td><td>5.15</td></tr>
+            <tr><td>Small loop</td><td>1.5</td><td>1.76</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- APERTURE & EFF LENGTH -->
+    <div class="card span2">
+      <div class="card-title"><span class="dot" style="background:var(--c3)"></span>Apertures &amp; Effective Length</div>
+      <div class="grid-2">
+        <div>
+          <p><strong>Effective Aperture A_e:</strong></p>
+          <div class="eq">A_e = P_L / W_i  [m²]</div>
+          <div class="eq">A_e = G·λ²/(4π) = D·λ²/(4π)  (lossless)</div>
+          <p><strong>Max Effective Aperture A_em:</strong></p>
+          <div class="eq">A_em = η₀·L_eff²/(2R_rad)  [derivation]</div>
+          <p><strong>Physical aperture A_p:</strong> Actual cross-section area</p>
+          <p><strong>Aperture efficiency:</strong></p>
+          <div class="eq">η_ap = A_e / A_p  (≤ 1, ideal = 1)</div>
+        </div>
+        <div>
+          <p><strong>Effective (electric) length h_e:</strong></p>
+          <div class="eq">V_oc = E_i · h_e  →  h_e = V_oc/E_i [m]</div>
+          <p>Equivalent uniform-current dipole producing same V_oc</p>
+          <ul>
+            <li>Short dipole h_e = L/2</li>
+            <li>λ/2 dipole h_e = λ/π ≈ 0.318λ</li>
+          </ul>
+          <div class="divider"></div>
+          <p><strong>Derivation result (key relation):</strong></p>
+          <div class="eq">D = 4πA_em/λ²  ↔  A_em = Dλ²/4π</div>
+          <p>Proved via Thevenin equivalent circuit of receiving antenna</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- POLARISATION -->
+    <div class="card span2">
+      <div class="card-title"><span class="dot" style="background:var(--c3)"></span>Polarisation</div>
+      <p>Orientation of the E-field vector of the radiated wave.</p>
+      <div class="grid-2">
+        <div>
+          <p><strong>Linear:</strong> E oscillates in one plane. Occurs when one E-component, or two in-phase components.</p>
+          <div class="eq">E = E_x x̂ cos(ωt-βz)</div>
+          <p><strong>Circular (CP):</strong> Two equal-amplitude, 90° phase-shift components. AR = 1. RHCP (+), LHCP (−).</p>
+          <div class="eq">E = E₀[x̂cos(ωt-βz) ± ŷsin(ωt-βz)]</div>
+          <p><strong>Elliptical:</strong> General case. AR = major/minor axis ratio.</p>
+        </div>
+        <div>
+          <table>
+            <tr><th>Type</th><th>AR</th><th>Condition</th></tr>
+            <tr><td>Linear</td><td>∞</td><td>One component / in-phase</td></tr>
+            <tr><td>Circular</td><td>1</td><td>Equal amp, 90° phase</td></tr>
+            <tr><td>Elliptical</td><td>1&lt;AR&lt;∞</td><td>General case</td></tr>
+          </table>
+          <p style="margin-top:4px"><strong>Polarisation loss factor:</strong></p>
+          <div class="eq">PLF = |ρ̂_w · ρ̂_a|² = cos²ψ</div>
+          <p>ψ = angle between wave &amp; antenna polarisation vectors</p>
+          <p>PLF = 1 (matched), 0 (orthogonal = no reception)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <div class="grid-3">
+    <!-- FRIIS & LINK BUDGET -->
+    <div class="card span2">
+      <div class="card-title"><span class="dot" style="background:var(--c3)"></span>Friis Transmission Formula &amp; Link Budget</div>
+      <div class="grid-2">
+        <div>
+          <p><strong>Derivation steps:</strong></p>
+          <div class="eq">Step 1: W = P_T·G_T / (4πr²)  [W/m²]</div>
+          <div class="eq">Step 2: A_eR = G_R·λ²/(4π)</div>
+          <div class="eq">Step 3: P_R = W·A_eR = P_T·G_T·G_R·(λ/4πr)²</div>
+          <p><strong>Friis equation:</strong></p>
+          <div class="eq">P_R/P_T = G_T · G_R · (λ/4πr)²</div>
+          <p><strong>Free-Space Path Loss (FSPL):</strong></p>
+          <div class="eq">FSPL = (4πr/λ)² = (4πrf/c)²</div>
+          <div class="eq">FSPL(dB) = 20log(4πr/λ)</div>
+        </div>
+        <div>
+          <p><strong>Link Budget (dB form):</strong></p>
+          <div class="eq">P_R = P_T + G_T + G_R − FSPL − L_misc</div>
+          <p>where L_misc = cable + polarisation + mismatch losses</p>
+          <div class="divider"></div>
+          <p><strong>Transmission Loss:</strong></p>
+          <div class="eq">L = FSPL = 20log(4πr/λ) = 20log(f) + 20log(r) − 147.55</div>
+          <p>Loss ↑ with frequency (higher f → smaller λ → more FSPL) and with range r</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANTENNA TEMP & SNR -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c3)"></span>Antenna Temperature &amp; SNR</div>
+      <p><strong>Antenna Temperature T_A:</strong> Effective noise temperature of the antenna due to thermal radiation from the environment it views (NOT physical temperature).</p>
+      <div class="eq">T_A = (1/4π) ∫∫ T_B(θ,φ)·P_n(θ,φ) dΩ  [K]</div>
+      <p>T_B = brightness temperature of source in direction (θ,φ)</p>
+      <p>P_n = normalised power pattern</p>
+      <div class="divider"></div>
+      <p><strong>Noise power:</strong></p>
+      <div class="eq">P_N = kT_sys·B  [W]  where k = 1.38×10⁻²³ J/K</div>
+      <p>T_sys = T_A + T_receiver</p>
+      <div class="eq">SNR = P_signal / P_noise = P_R / (kT_sys·B)</div>
+      <p><strong>G/T ratio</strong> (figure of merit for receiving system):</p>
+      <div class="eq">G/T = G_R(dBi) − 10log(T_sys)  [dB/K]</div>
+      <p>Higher G/T → better receive performance</p>
+    </div>
+  </div>
+
+  <div class="page-label">Page 2 of 4 — GTU 3161003 Antennas &amp; Propagation Cheat Sheet</div>
+</div>
+
+<!-- ===================== PAGE 3 ===================== -->
+<div class="page">
+  <!-- CH5 HEADER -->
+  <div class="ch-header" style="background:rgba(203,166,247,0.08);border:1px solid rgba(203,166,247,0.2)">
+    <div class="ch-num" style="color:var(--c5)">05</div>
+    <div class="ch-info">
+      <div class="ch-name">LOOP ANTENNA</div>
+      <div class="ch-co">CO3 — Small Loop, Comparison with Dipole, Fields, Radiation Resistance, Directivity</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <!-- LOOP GEOMETRY & PRINCIPLE -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c5)"></span>Small Loop — Geometry &amp; Principle</div>
+      <p>Loop of radius <em>a</em> (or area A = πa²), lying in x-y plane. Condition: circumference <span class="eq-inline">C = 2πa ≪ λ</span></p>
+      <div class="divider"></div>
+      <p><strong>Working principle:</strong> Oscillating current I₀ creates time-varying magnetic flux → time-varying magnetic dipole moment:</p>
+      <div class="eq">m = I₀·A = I₀·πa²  [magnetic dipole moment]</div>
+      <p>This oscillating magnetic dipole radiates EM waves. Loop = <strong>magnetic dual</strong> of short electric dipole.</p>
+      <div class="divider"></div>
+      <p><strong>Far-field components:</strong></p>
+      <div class="eq">E_φ = j(ηI₀πa²β² sinθ/4π)·e^(-jβr)/r</div>
+      <div class="eq">H_θ = −E_φ/η</div>
+      <div class="eq">All other components = 0 in far field</div>
+      <p>Pattern: <span class="eq-inline">sin θ</span> — max at θ=90° (equatorial), null at θ=0° (axis)</p>
+    </div>
+
+    <!-- LOOP vs DIPOLE COMPARISON -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c5)"></span>Loop vs Short Dipole — Far Field Comparison</div>
+      <table>
+        <tr><th>Parameter</th><th>Small Loop</th><th>Short Dipole</th></tr>
+        <tr><td>E-component</td><td>E_φ (azimuthal)</td><td>E_θ (elevation)</td></tr>
+        <tr><td>H-component</td><td>H_θ</td><td>H_φ</td></tr>
+        <tr><td>Pattern</td><td>sinθ</td><td>sinθ</td></tr>
+        <tr><td>Source</td><td>Magnetic dipole m=IA</td><td>Electric dipole p=qΔl</td></tr>
+        <tr><td>E ∝ β</td><td>β² (2nd derivative)</td><td>β (1st derivative)</td></tr>
+        <tr><td>Senses</td><td>H-field (magnetic)</td><td>E-field (electric)</td></tr>
+        <tr><td>Polarisation</td><td>Horizontal (for V-loop)</td><td>Vertical (for V-dipole)</td></tr>
+        <tr><td>Directivity</td><td>1.5 = 1.76 dBi</td><td>1.5 = 1.76 dBi</td></tr>
+        <tr><td>R_rad</td><td>Small (≪ 1 Ω typical)</td><td>80π²(Δl/λ)² Ω</td></tr>
+      </table>
+      <p style="margin-top:4px">Key: Patterns are <strong>identical</strong> by duality principle. E and H are interchanged.</p>
+    </div>
+
+    <!-- RADIATION RESISTANCE & DIRECTIVITY PROOF -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c5)"></span>Radiation Resistance &amp; Directivity Proof</div>
+      <p><strong>R_rad formula (small loop):</strong></p>
+      <div class="eq">R_rad = 20π²(C/λ)⁴ = 20π²(2πa/λ)⁴  [Ω]</div>
+      <div class="eq">R_rad = 31,171·(A/λ²)²  [Ω]  (A = loop area)</div>
+      <p>Example: a = λ/25 → C/λ = 2π/25 = 0.2513</p>
+      <div class="eq">R_rad = 20π²×(0.2513)⁴ ≈ 0.788 Ω</div>
+      <div class="divider"></div>
+      <p><strong>Directivity proof (same as dipole):</strong></p>
+      <div class="eq">U(θ) = U₀sin²θ  [same pattern as dipole]</div>
+      <div class="eq">P_rad = ∫U dΩ = U₀·2π·∫₀^π sin³θ dθ = U₀·2π·4/3 = 8πU₀/3</div>
+      <div class="eq">D = 4πU_max/P_rad = 4πU₀/(8πU₀/3) = 3/2 = 1.5 ✓</div>
+      <div class="divider"></div>
+      <p><strong>Applications:</strong> AM radio (ferrite core), direction finding (sharp null), RFID/NFC, metal detectors, MRI coils, ELF submarine comms, EMC testing</p>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- CH6 HEADER -->
+  <div class="ch-header" style="background:rgba(243,139,168,0.08);border:1px solid rgba(243,139,168,0.2)">
+    <div class="ch-num" style="color:var(--c6)">06</div>
+    <div class="ch-info">
+      <div class="ch-name">HELICAL ANTENNA</div>
+      <div class="ch-co">CO3 — Geometry, Normal &amp; Axial Modes, Design, Wideband Characteristics</div>
+    </div>
+  </div>
+
+  <div class="grid-4">
+    <!-- HELIX GEOMETRY -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c6)"></span>Helical Geometry</div>
+      <table>
+        <tr><th>Symbol</th><th>Parameter</th></tr>
+        <tr><td>D</td><td>Helix diameter</td></tr>
+        <tr><td>C = πD</td><td>Circumference (1 turn)</td></tr>
+        <tr><td>S</td><td>Axial spacing per turn</td></tr>
+        <tr><td>α</td><td>Pitch angle</td></tr>
+        <tr><td>L</td><td>Wire length per turn</td></tr>
+        <tr><td>N</td><td>Number of turns</td></tr>
+        <tr><td>A = NS</td><td>Total axial length</td></tr>
+      </table>
+      <div class="eq">tanα = S/C = S/(πD)</div>
+      <div class="eq">L = √(C²+S²) = C/cosα</div>
+      <p>Unrolled turn: right triangle with hyp=L, base=C, height=S, angle=α</p>
+    </div>
+
+    <!-- NORMAL MODE -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c6)"></span>Normal (Broadside) Mode</div>
+      <p>Condition: <span class="eq-inline">C ≪ λ</span> and <span class="eq-inline">NA ≪ λ</span></p>
+      <div class="eq">Max radiation ⊥ to helix axis (broadside)</div>
+      <p>Pattern = figure-8 (same as dipole/loop)</p>
+      <p><strong>Polarisation depends on α:</strong></p>
+      <ul>
+        <li>α → 0°: Loop-like → LP horizontal or CP</li>
+        <li>α → 90°: Dipole-like → LP vertical</li>
+        <li>Special α: Circular polarisation</li>
+      </ul>
+      <p><strong>CP condition:</strong></p>
+      <div class="eq">S = C²/(2λ)  [CP in normal mode]</div>
+      <p>Low gain; used in compact mobile handsets, hearing aids, pagers</p>
+    </div>
+
+    <!-- AXIAL MODE -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c6)"></span>Axial (End-Fire) Mode</div>
+      <p>Condition: <span class="eq-inline">C ≈ λ</span> (0.75λ to 1.33λ)</p>
+      <div class="eq">Max radiation along helix axis (end-fire)</div>
+      <p>Always <strong>Circularly Polarised</strong> (RHCP or LHCP by winding)</p>
+      <p>Optimum pitch angle: α ≈ 12°–14°</p>
+      <div class="eq">G ≈ 11.8·N·(C/λ)²·(S/λ)</div>
+      <div class="eq">HPBW ≈ 52°·λ^(3/2)/(C·√NS)  [deg]</div>
+      <div class="eq">R_in ≈ 140(C/λ) ≈ 140 Ω  (at C=λ)</div>
+      <div class="eq">AR = (2N+1)/(2N) → 1 for large N</div>
+      <p>AR = 1 → perfect CP; AR→1 as N increases</p>
+    </div>
+
+    <!-- DESIGN + WIDEBAND -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c6)"></span>Design &amp; Wideband Characteristics</div>
+      <p><strong>Design parameters (Axial mode):</strong></p>
+      <ul>
+        <li>C ≈ λ (0.75λ–1.33λ); D = C/π</li>
+        <li>S ≈ λ/4; pitch α ≈ 12–14°</li>
+        <li>N ≥ 3 turns (more turns → higher G)</li>
+        <li>GND plane diameter ≥ λ/2</li>
+        <li>Wire: 0.005λ ≤ d ≤ 0.05λ</li>
+        <li>Matching: Tapered 1st turn or λ/4 transformer to 50 Ω</li>
+      </ul>
+      <div class="divider"></div>
+      <p><strong>Wideband characteristic:</strong></p>
+      <p>Axial mode BW ≈ 1.7:1 (VSWR &lt; 2). Wideband because helix geometry self-scales — as frequency varies, the active region shifts along the helix while maintaining C ≈ λ condition over a broad range.</p>
+      <div class="eq">BW ≈ 1.7:1  →  unlike narrowband dipole (~1.05:1)</div>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE MODES -->
+  <div class="grid-2" style="margin-top:8px">
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c6)"></span>Normal vs Axial Mode Comparison</div>
+      <table>
+        <tr><th>Parameter</th><th>Normal Mode</th><th>Axial Mode</th></tr>
+        <tr><td>Circumference</td><td>C ≪ λ</td><td>C ≈ λ</td></tr>
+        <tr><td>Max radiation</td><td>Broadside (⊥ axis)</td><td>End-fire (‖ axis)</td></tr>
+        <tr><td>Pattern</td><td>Figure-8</td><td>Pencil beam</td></tr>
+        <tr><td>Polarisation</td><td>Depends on α</td><td>Always CP</td></tr>
+        <tr><td>Gain</td><td>Low</td><td>High (10–20 dBi)</td></tr>
+        <tr><td>Bandwidth</td><td>Narrowband</td><td>Wideband (1.7:1)</td></tr>
+        <tr><td>Optimum α</td><td>Variable</td><td>12°–14°</td></tr>
+        <tr><td>Application</td><td>Mobile handsets</td><td>Satellite, GPS, LEO</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c6)"></span>Pitch Angle &amp; Axial Ratio — Definitions</div>
+      <p><strong>Pitch Angle α:</strong> Angle between the helix tangent and a plane perpendicular to the helix axis.</p>
+      <div class="eq">tanα = S/C = S/(πD);  0° ≤ α ≤ 90°</div>
+      <ul>
+        <li>α = 0° → flat loop (degenerate helix)</li>
+        <li>α = 90° → straight wire (degenerate helix)</li>
+        <li>α = 12–14° → optimal axial mode radiation</li>
+      </ul>
+      <div class="divider"></div>
+      <p><strong>Axial Ratio (AR):</strong> Ratio of major axis (OA) to minor axis (OB) of polarisation ellipse.</p>
+      <div class="eq">AR = OA/OB = (2N+1)/(2N)  [for helix]</div>
+      <ul>
+        <li>AR = 1 → perfect RHCP or LHCP</li>
+        <li>AR = ∞ → linear polarisation</li>
+        <li>1 &lt; AR &lt; ∞ → elliptical polarisation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-label">Page 3 of 4 — GTU 3161003 Antennas &amp; Propagation Cheat Sheet</div>
+</div>
+
+<!-- ===================== PAGE 4 ===================== -->
+<div class="page">
+  <!-- CH15 HEADER -->
+  <div class="ch-header" style="background:rgba(249,226,175,0.08);border:1px solid rgba(249,226,175,0.2)">
+    <div class="ch-num" style="color:var(--c15)">15</div>
+    <div class="ch-info">
+      <div class="ch-name">RADIO WAVE PROPAGATION</div>
+      <div class="ch-co">CO5 — Ground Wave, Sky Wave, Space Wave, Ionosphere, MUF, Skip Distance, Fading, Super Refraction</div>
+    </div>
+  </div>
+
+  <div class="grid-4">
+    <!-- MODES OF PROPAGATION -->
+    <div class="card span4">
+      <div class="card-title"><span class="dot" style="background:var(--c15)"></span>Modes of Propagation — Overview</div>
+      <table>
+        <tr><th>Mode</th><th>Frequency Range</th><th>Mechanism</th><th>Range</th><th>Application</th></tr>
+        <tr><td><strong>Ground Wave</strong></td><td>VLF, LF, MF (3kHz–3MHz)</td><td>Diffracts along Earth's surface; attenuated by ground losses</td><td>100–1000 km</td><td>AM broadcast, ship/maritime comms</td></tr>
+        <tr><td><strong>Sky Wave</strong></td><td>HF (3–30 MHz) (Shortwave)</td><td>Refracted by ionospheric layers back to Earth</td><td>100–10,000 km</td><td>Long-range HF comms, shortwave radio</td></tr>
+        <tr><td><strong>Space Wave</strong></td><td>VHF, UHF, SHF (30 MHz+)</td><td>Direct LOS + ground-reflected wave; tropospheric bending</td><td>50–80 km (LOS)</td><td>TV, FM, mobile, microwave, satellite</td></tr>
+        <tr><td><strong>Satellite</strong></td><td>SHF, EHF (1–100 GHz)</td><td>Space wave via satellite relay; passes through ionosphere</td><td>Global</td><td>Satellite TV, GPS, broadband</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <div class="grid-4">
+    <!-- GROUND WAVE -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c15)"></span>Ground Wave Propagation</div>
+      <p>Wave travels along the surface of the Earth, inducing currents in the surface. Power is continuously absorbed.</p>
+      <ul>
+        <li>Requires <strong>vertical polarisation</strong> (horizontal gets short-circuited by surface)</li>
+        <li>Attenuation increases with frequency (∝ f²)</li>
+        <li>Range higher over seawater (σ = 4 S/m) than dry land (σ = 0.001 S/m)</li>
+        <li>Works below 3 MHz; at higher f, too much attenuation</li>
+      </ul>
+      <div class="divider"></div>
+      <p><strong>Attenuation factor:</strong></p>
+      <div class="eq">A ≈ exp(−α·d)  where α ↑ with f and ↑ with low σ_ground</div>
+    </div>
+
+    <!-- IONOSPHERE STRUCTURE -->
+    <div class="card span2">
+      <div class="card-title"><span class="dot" style="background:var(--c15)"></span>Ionosphere Structure &amp; Layers</div>
+      <div class="grid-2">
+        <div>
+          <p>Region 60–1000 km; ionised by solar UV &amp; X-rays. Free electrons refract radio waves.</p>
+          <table>
+            <tr><th>Layer</th><th>Height</th><th>Characteristic</th></tr>
+            <tr><td><strong>D</strong></td><td>60–90 km</td><td>Daytime only; absorbs HF/MF, causes attenuation</td></tr>
+            <tr><td><strong>E</strong></td><td>100–125 km</td><td>Day; partial reflection; Sporadic-E possible</td></tr>
+            <tr><td><strong>E_s</strong></td><td>~110 km</td><td>Sporadic; unpredictable; strong HF/VHF reflection</td></tr>
+            <tr><td><strong>F₁</strong></td><td>170–220 km</td><td>Daytime only; merges with F₂ at night</td></tr>
+            <tr><td><strong>F₂</strong></td><td>250–400 km</td><td>Most important; exists day &amp; night; long-range HF</td></tr>
+          </table>
+        </div>
+        <div>
+          <p><strong>Electron density N_e:</strong></p>
+          <div class="eq">n = √(1 − 81N_e/f²)  [refractive index]</div>
+          <p>When n &lt; 1: wave bends away from vertical</p>
+          <p>When n = 0: total reflection occurs</p>
+          <div class="divider"></div>
+          <p><strong>Critical frequency f_c:</strong> Maximum frequency for vertical incidence reflection from a layer</p>
+          <div class="eq">f_c = 9√N_max  [Hz]  where N_max in e/m³</div>
+          <p><strong>Typical f_c(F₂):</strong> 5–15 MHz (day), 3–6 MHz (night)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TROPOSPHERE -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c15)"></span>Troposphere Structure</div>
+      <p>Region 0–12 km above Earth. Space waves travel here.</p>
+      <p><strong>Normal refraction:</strong> n decreases with altitude → wave bends slightly downward, extending LOS range beyond geometric horizon.</p>
+      <div class="eq">dN/dh ≈ −40 N-units/km  (standard atmosphere)</div>
+      <p><strong>Effective Earth radius:</strong></p>
+      <div class="eq">r_e = k·r₀ = (4/3)×6371 km  (k = 4/3 for std atm)</div>
+      <p><strong>Radio horizon:</strong></p>
+      <div class="eq">d = √(2r_e·h_T) + √(2r_e·h_R)  [m]</div>
+      <p>where h_T, h_R = Tx/Rx antenna heights</p>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <div class="grid-4">
+    <!-- SKY WAVE DEFS -->
+    <div class="card span2">
+      <div class="card-title"><span class="dot" style="background:var(--c15)"></span>Sky Wave — Key Definitions</div>
+      <div class="grid-2">
+        <div>
+          <div class="dlist">
+            <div class="dterm">Virtual Height h'</div><div class="ddef">Apparent height of reflection if wave traveled at speed of light. h' &gt; actual layer height h.</div>
+            <div class="dterm">Skip Distance d_s</div><div class="ddef">Minimum ground distance covered by sky wave for given f. No coverage between TX and skip distance (dead zone).</div>
+            <div class="dterm">Dead Zone</div><div class="ddef">Region between ground wave limit and skip distance. No reception.</div>
+            <div class="dterm">MUF</div><div class="ddef">Maximum Usable Frequency — max f that returns to Earth via ionosphere at a given angle of incidence.</div>
+          </div>
+        </div>
+        <div>
+          <div class="dlist">
+            <div class="dterm">OWF</div><div class="ddef">Optimum Working Frequency = 0.85 × MUF. Chosen for reliable communication (avoids MUF margin).</div>
+            <div class="dterm">LUF</div><div class="ddef">Lowest Usable Frequency — min f above which D-layer absorption is tolerable.</div>
+            <div class="dterm">Multi-hop</div><div class="ddef">Wave reflected multiple times between ionosphere and Earth to reach very long distances (global comms).</div>
+          </div>
+          <div class="divider"></div>
+          <div class="eq">MUF = f_c / sinΦ = f_c · sec i  [sec law]</div>
+          <div class="eq">d_skip = 2h'·√((MUF/f)²−1)  [approx]</div>
+          <div class="eq">OWF = 0.85 × MUF</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FADING & ABSORPTION -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c15)"></span>Fading &amp; Ionospheric Absorption</div>
+      <p><strong>Fading:</strong> Time variation in received signal strength due to:</p>
+      <ul>
+        <li><strong>Multi-path fading:</strong> Multiple sky-wave paths arrive with different phases → constructive/destructive interference</li>
+        <li><strong>Absorption variation:</strong> D-layer absorption changes with solar activity</li>
+        <li><strong>Polarisation fading:</strong> Faraday rotation of polarisation in ionosphere</li>
+        <li><strong>Selective fading:</strong> Different frequencies fade differently</li>
+      </ul>
+      <div class="divider"></div>
+      <p><strong>Ionospheric Absorption:</strong> D-layer electrons collide with neutral atoms, converting wave energy to heat. Increases with f⁻². Worst at low HF (3–5 MHz). Increases during solar flares (SID — Sudden Ionospheric Disturbance).</p>
+      <div class="eq">Absorption A ∝ N_e·ν/(f ± f_H)²  [non-deviative]</div>
+    </div>
+
+    <!-- SPACE WAVE & SUPER REFRACTION -->
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--c15)"></span>Space Wave &amp; Super Refraction</div>
+      <p><strong>Space Wave:</strong> Combination of direct LOS wave + ground-reflected wave. Used at VHF and above.</p>
+      <div class="eq">E_total = E_direct + E_reflected (with phase shift)</div>
+      <p>Ground reflected wave has phase shift (π for smooth surface). Interference → lobing pattern in elevation.</p>
+      <div class="divider"></div>
+      <p><strong>Super Refraction (Ducting):</strong> Abnormal tropospheric condition where temperature inversion or rapid decrease in humidity creates a layer with strong dN/dh &lt;&lt; −40 N-units/km. The wave is bent so sharply it is trapped in a "duct" between ground and the inversion layer.</p>
+      <ul>
+        <li>Allows VHF/UHF propagation far beyond normal LOS</li>
+        <li>Can cause interference between distant stations</li>
+        <li>Common over warm seas (evaporation duct)</li>
+        <li>Duct height: 10–100 m (surface duct) to 1–3 km (elevated duct)</li>
+      </ul>
+      <div class="eq">Super refraction: dN/dh &lt; −157 N-units/km</div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <!-- QUICK REFERENCE TABLE ALL FORMULAS -->
+  <div class="card">
+    <div class="card-title" style="color:#fff;font-size:14px"><span class="dot" style="background:#cdd6f4"></span>MASTER FORMULA QUICK REFERENCE — All Chapters</div>
+    <div class="grid-4">
+      <div>
+        <p><span class="tag">CH1</span><strong>Radiation condition</strong></p>
+        <div class="eq">βr=1 → r=λ/2π (near/far boundary)</div>
+        <p><span class="tag">CH2</span><strong>Short dipole R_rad</strong></p>
+        <div class="eq">R_rad = 80π²(Δl/λ)²  [Ω]</div>
+        <p><span class="tag">CH2</span><strong>λ/2 dipole R_rad</strong></p>
+        <div class="eq">R_rad = 73 Ω</div>
+        <p><span class="tag">CH2</span><strong>Monopole R_rad</strong></p>
+        <div class="eq">R_rad = 36.5 Ω</div>
+      </div>
+      <div>
+        <p><span class="tag">CH3</span><strong>Directivity</strong></p>
+        <div class="eq">D = 4πU_max/P_rad = 4π/Ω_A</div>
+        <p><span class="tag">CH3</span><strong>Gain</strong></p>
+        <div class="eq">G = η_r · D;  G≈41253/(θ₁×θ₂)</div>
+        <p><span class="tag">CH3</span><strong>Friis equation</strong></p>
+        <div class="eq">P_R = P_T G_T G_R (λ/4πr)²</div>
+        <p><span class="tag">CH3</span><strong>Effective aperture</strong></p>
+        <div class="eq">A_e = Gλ²/4π;  D=4πA_e/λ²</div>
+      </div>
+      <div>
+        <p><span class="tag">CH5</span><strong>Loop R_rad</strong></p>
+        <div class="eq">R_rad = 20π²(C/λ)⁴  [Ω]</div>
+        <p><span class="tag">CH5</span><strong>Loop directivity</strong></p>
+        <div class="eq">D = 1.5 = 1.76 dBi (same as dipole)</div>
+        <p><span class="tag">CH6</span><strong>Helix pitch</strong></p>
+        <div class="eq">tanα = S/C;  L=√(C²+S²)</div>
+        <p><span class="tag">CH6</span><strong>Helix gain</strong></p>
+        <div class="eq">G = 11.8·N·(C/λ)²·(S/λ)</div>
+      </div>
+      <div>
+        <p><span class="tag">CH15</span><strong>Critical freq</strong></p>
+        <div class="eq">f_c = 9√N_max  [Hz]</div>
+        <p><span class="tag">CH15</span><strong>MUF (sec law)</strong></p>
+        <div class="eq">MUF = f_c · sec(i) = f_c/sinΦ</div>
+        <p><span class="tag">CH15</span><strong>OWF</strong></p>
+        <div class="eq">OWF = 0.85 × MUF</div>
+        <p><span class="tag">CH15</span><strong>Refractive index</strong></p>
+        <div class="eq">n = √(1 − 81N_e/f²)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-label">Page 4 of 4 — GTU 3161003 Antennas &amp; Propagation Cheat Sheet</div>
+</div>
+
+</body>
+</html>
